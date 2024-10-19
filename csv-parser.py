@@ -1,8 +1,8 @@
 import os
 
 # Path to the directory containing CSV files and images
-dir_path = 'deliverable-3/meets'
-image_dir = 'deliverable-3/images'
+dir_path = 'meets'
+image_dir = 'images'
 
 # HTML content to be constructed directly
 html_content = """
@@ -17,7 +17,10 @@ html_content = """
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Results</h1>
+    <header>
+        <h1>Results</h1>
+    </header>
+    <main>
 """
 
 # Loop through each file in the directory
@@ -62,18 +65,19 @@ for filename in os.listdir(dir_path):
 
         # Add a new section for each event
         html_content += f"""
-        <div class="event">
+        <section class="event">
             <h2>{event_name}</h2>
             <h3>Team Scores</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Place</th>
-                        <th>Team</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="responsive-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Place</th>
+                            <th>Team</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         """
 
         # Add team scores to the HTML content
@@ -81,16 +85,17 @@ for filename in os.listdir(dir_path):
             if len(score) >= 3:
                 html_content += f"""
                     <tr>
-                        <td>{score[0]}</td>
-                        <td>{score[1]}</td>
-                        <td>{score[2]}</td>
+                        <td data-label="Place">{score[0]}</td>
+                        <td data-label="Team">{score[1]}</td>
+                        <td data-label="Score">{score[2]}</td>
                     </tr>
                 """
 
         # Closing the team scores table tag
         html_content += """
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
             <h3>Top 3 Results</h3>
         """
 
@@ -109,7 +114,7 @@ for filename in os.listdir(dir_path):
                 if os.path.exists(image_path):
                     image_src = f"images/{athlete_id}.jpg"
                 else:
-                    image_src = f"images/default.jpg"  # Fallback image if athlete's photo isn't available
+                    image_src = f"images/default.jpg"
                 
                 # Add athlete result to the HTML
                 html_content += f"""
@@ -119,24 +124,28 @@ for filename in os.listdir(dir_path):
                     <p>Grade: {result[1]}</p>
                     <p>Time: {result[4]}</p>
                     <p>Team: {result[5]}</p>
-                    <img src="{image_src}" alt="Profile Picture of {result[2]}" width="150">
+                    <img src="{image_src}" alt="Profile Picture of {result[2]}" class="profile-img">
                 </div>
                 <hr>
                 """
 
-        # Ending the event div
+        # Ending the event section
         html_content += """
-        </div>
+        </section>
         """
 
-# Closing the HTML tags
+# Closing the main and other HTML tags
 html_content += """
+    </main>
+    <footer>
+        <p>&copy; 2024 Results Site</p>
+    </footer>
 </body>
 </html>
 """
 
 # Save the HTML content to a file
-html_file_path = 'deliverable-3/results.html'
+html_file_path = 'results.html'
 with open(html_file_path, 'w') as file:
     file.write(html_content)
 
