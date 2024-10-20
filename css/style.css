@@ -1,8 +1,63 @@
+/* General layout */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* Fixed scrollable event list */
+.event-list {
+    position: fixed;
+    top: 0; /* Start at the top */
+    left: 0;
+    width: 250px;
+    height: 100%; /* Full height */
+    overflow-y: auto;
+    padding: 20px;
+    background: #f5f5f5;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-list li {
+    margin: 10px 0;
+}
+
+.event-list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    transition: background 0.3s;
+}
+
+.event-list a:hover {
+    background: #ddd;
+}
+
+/* Styling for the main content */
+main {
+    margin-left: 270px; /* Adjust this based on .event-list width */
+    margin-right: 270px; /* Adjust this based on .footer width */
+    padding: 20px;
+    width: calc(100% - 540px); /* Adjust based on .event-list and .footer width */
+    flex: 1 0 auto; /* Allows the main content to flexibly grow */
+}
+
 /* style for responsive tables */
 .responsive-table {
     overflow-x: auto;
 }
 
+/* Additional Styles for Tables and Sections */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -24,19 +79,73 @@ tbody tr:nth-child(even) {
 
 /* athlete section */
 .athlete {
+    display: flex;
+    justify-content: space-between; /* Ensures space between text and image */
+    align-items: center; /* Vertically aligns the content and image */
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
+}
+
+.athlete div {
+    max-width: 75%; /* Limit the text width to leave space for the image */
 }
 
 .profile-img {
     border-radius: 50%;
     width: 150px;
     object-fit: cover;
+    margin-left: 20px; /* Add some space between the text and the image */
+}
+
+/* Footer styling */
+footer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%; /* Full height */
+    padding: 20px;
+    background-color: #000; /* Set footer background color to black */
+    color: #fff; /* Set footer text color to white */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 100px; /* Adjust size as needed */
+    margin: 0 auto 15px auto; /* Center the logo horizontally */
+    display: block; /* Ensures it behaves like a block-level element */
+}
+
+.footer-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #555;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.footer-button:hover {
+    background-color: #777;
 }
 
 /* media queries for responsive design */
 @media (max-width: 768px) {
+    .event-list, footer {
+        display: none; /* Hide the left event list and right footer on small screens */
+    }
+
+    main {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%; /* Expand the main content to full width */
+    }
+
     table, thead, tbody, th, td, tr {
         display: block;
     }

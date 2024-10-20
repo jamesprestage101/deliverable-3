@@ -17,15 +17,37 @@ html_content = """
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Results</h1>
-    </header>
-    <main>
+    <nav class="event-list">
+        <ul>
 """
 
 # Loop through each file in the directory
+event_count = 0
 for filename in os.listdir(dir_path):
     if filename.endswith('.csv'):
+        event_count += 1
+        file_path = os.path.join(dir_path, filename)
+        
+        # Extract event name from the filename (assuming the filename has meaningful event info)
+        event_name = os.path.splitext(filename)[0].replace('_', ' ')
+
+        # Add the event to the list of event names for navigation
+        html_content += f'<li><a href="#event-{event_count}" class="event-link">{event_name}</a></li>'
+
+html_content += """
+        </ul>
+    </nav>
+    <main>
+        <h1>All Results</h1>
+"""
+
+# Resetting the event count for sections
+event_count = 0
+
+# Loop through each file again to create event sections
+for filename in os.listdir(dir_path):
+    if filename.endswith('.csv'):
+        event_count += 1
         file_path = os.path.join(dir_path, filename)
         
         # Extract event name from the filename (assuming the filename has meaningful event info)
@@ -65,9 +87,12 @@ for filename in os.listdir(dir_path):
 
         # Add a new section for each event
         html_content += f"""
-        <section class="event">
+        <div class="spacer" id="spacer-{event_count}"></div>
+        <section id="event-{event_count}" class="event">
+        <br>
             <h2>{event_name}</h2>
             <h3>Team Scores</h3>
+            <br>
             <div class="responsive-table">
                 <table>
                     <thead>
@@ -96,7 +121,9 @@ for filename in os.listdir(dir_path):
                     </tbody>
                 </table>
             </div>
+            <br>
             <h3>Top 3 Results</h3>
+            <br>
         """
 
         # Create the HTML content for athletes
@@ -120,10 +147,10 @@ for filename in os.listdir(dir_path):
                 html_content += f"""
                 <div class="athlete">
                     <h4>{result[2]}</h4>
-                    <p>Place: {result[0]}</p>
-                    <p>Grade: {result[1]}</p>
-                    <p>Time: {result[4]}</p>
-                    <p>Team: {result[5]}</p>
+                    <p><b>Place:</b> <br>{result[0]}</p>
+                    <p><b>Grade:</b> <br>{result[1]}</p>
+                    <p><b>Time:</b> <br>{result[4]}</p>
+                    <p><b>Team:</b> <br>{result[5]}</p>
                     <img src="{image_src}" alt="Profile Picture of {result[2]}" class="profile-img">
                 </div>
                 <hr>
@@ -138,7 +165,10 @@ for filename in os.listdir(dir_path):
 html_content += """
     </main>
     <footer>
-        <p>&copy; 2024 Results Site</p>
+        <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
+        <a href="index.html" class="footer-button">Home Page</a>
+        <br><br>
+        <p>&copy; 2024 Client Deliverable 3</p>
     </footer>
 </body>
 </html>
