@@ -15,10 +15,29 @@ html_content = """
     <title>Results</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css"> 
     <link rel="stylesheet" href="css/style.css">
+    <script>
+        window.addEventListener('scroll', function() {
+            const button = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                button.style.display = 'block';
+            } else {
+                button.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </head>
 <body>
-    <nav class="event-list">
-        <ul>
+    <footer>
+        <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
+        <a href="index.html" class="footer-button">Home Page</a>
+    </footer>
+    <main>
+        <nav class="event-list">
+            <ul>
 """
 
 # Loop through each file in the directory
@@ -35,10 +54,9 @@ for filename in os.listdir(dir_path):
         html_content += f'<li><a href="#event-{event_count}" class="event-link">{event_name}</a></li>'
 
 html_content += """
-        </ul>
-    </nav>
-    <main>
-        <h1>All Results</h1>
+            </ul>
+        </nav>
+        <h1>All 2024 Event Summaries</h1>
 """
 
 # Resetting the event count for sections
@@ -134,12 +152,12 @@ for filename in os.listdir(dir_path):
                 # Extract athlete ID from the link (e.g., https://www.athletic.net/athlete/19229177/cross-country)
                 athlete_id = athlete_link.split('/')[-2]
                 
-                # Define the path to the image using the athlete ID
-                image_path = os.path.join(image_dir, f"{athlete_id}.jpg")
-                
+                # Define the path to the image using the updated naming convention IMG_{athlete_id}.jpg
+                image_path = os.path.join(image_dir, f"IMG_{athlete_id}.jpg")
+
                 # Check if the image exists in the images folder; if not, use a default image
                 if os.path.exists(image_path):
-                    image_src = f"images/{athlete_id}.jpg"
+                    image_src = f"images/IMG_{athlete_id}.jpg"
                 else:
                     image_src = f"images/default.jpg"
                 
@@ -164,12 +182,7 @@ for filename in os.listdir(dir_path):
 # Closing the main and other HTML tags
 html_content += """
     </main>
-    <footer>
-        <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
-        <a href="index.html" class="footer-button">Home Page</a>
-        <br><br>
-        <p>&copy; 2024 Client Deliverable 3</p>
-    </footer>
+    <button id="back-to-top" onclick="scrollToTop()">Back to Top</button>
 </body>
 </html>
 """
