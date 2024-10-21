@@ -2,7 +2,7 @@ import os
 
 # Path to the directory containing CSV files and images
 dir_path = 'meets'
-image_dir = 'images'
+image_dir = 'images/athletes'
 
 # HTML content to be constructed directly
 html_content = """
@@ -12,7 +12,8 @@ html_content = """
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Event Summareis</title>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="css/reset.css"> 
     <link rel="stylesheet" href="css/style.css">
     <script>
@@ -28,9 +29,35 @@ html_content = """
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Function to toggle modal visibility
+        function toggleModal(imageSrc, altText) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            const modalCaption = document.getElementById('modal-caption');
+
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            modalCaption.textContent = altText;
+        }
+
+        // Close the modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     </script>
 </head>
 <body>
+    <!-- Image Modal -->
+    <div id="image-modal" class="modal">
+        <img class="modal-content" id="modal-img" alt="Fullscreen Image">
+        <div id="modal-caption"></div>
+    </div>
+
     <footer>
         <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
         <a href="index.html" class="footer-button">Home Page</a>
@@ -56,7 +83,9 @@ for filename in os.listdir(dir_path):
 html_content += """
             </ul>
         </nav>
+        <br>
         <h1>All 2024 Event Summaries</h1>
+        <br>
 """
 
 # Resetting the event count for sections
@@ -156,12 +185,12 @@ for filename in os.listdir(dir_path):
                 # Extract athlete ID from the link (e.g., https://www.athletic.net/athlete/19229177/cross-country)
                 athlete_id = athlete_link.split('/')[-2]
                 
-                # Define the path to the image using the updated naming convention IMG_{athlete_id}.jpg
-                image_path = os.path.join(image_dir, f"IMG_{athlete_id}.jpg")
+                # Define the path to the image using the updated naming convention {athlete_id}.jpg
+                image_path = os.path.join(image_dir, f"{athlete_id}.jpg")
 
                 # Check if the image exists in the images folder; if not, use a default image
                 if os.path.exists(image_path):
-                    image_src = f"images/IMG_{athlete_id}.jpg"
+                    image_src = f"images/athletes/{athlete_id}.jpg"
                 else:
                     image_src = f"images/default.jpg"
                 
@@ -173,7 +202,9 @@ for filename in os.listdir(dir_path):
                     <td data-label="Name"><a href="{athlete_link}" target="_blank">{result[2]}</a></td>
                     <td data-label="Time">{result[4]}</td>
                     <td data-label="Team">{result[5]}</td>
-                    <td data-label="Profile"><img src="{image_src}" alt="Profile Picture of {result[2]}"></td>
+                    <td data-label="Profile">
+                        <img src="{image_src}" alt="Profile Picture of {result[2]}" onclick="toggleModal('{image_src}', '{result[2]}')">
+                    </td>
                 </tr>
                 """
 
