@@ -62,6 +62,9 @@ html_content += """
 # Resetting the event count for sections
 event_count = 0
 
+# Medal icons for the top 3 teams
+medals = ["&#129351;", "&#129352;", "&#129353;"]  # Gold, Silver, Bronze
+
 # Loop through each file again to create event sections
 for filename in os.listdir(dir_path):
     if filename.endswith('.csv'):
@@ -111,40 +114,41 @@ for filename in os.listdir(dir_path):
             <h2>{event_name}</h2>
             <h3>Team Scores</h3>
             <br>
-            <div class="responsive-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Place</th>
-                            <th>Team</th>
-                            <th>Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="podium">
         """
 
-        # Add team scores to the HTML content
-        for score in team_scores:
-            if len(score) >= 3:
-                html_content += f"""
-                    <tr>
-                        <td data-label="Place">{score[0]}</td>
-                        <td data-label="Team">{score[1]}</td>
-                        <td data-label="Score">{score[2]}</td>
-                    </tr>
-                """
+        # Add team scores to the HTML content with medal icons
+        for idx, score in enumerate(team_scores):
+            medal_icon = medals[idx] if idx < 3 else ""
+            position_class = "first-place" if idx == 0 else "second-place" if idx == 1 else "third-place"
+            html_content += f"""
+            <div class="{position_class}">
+                <p><b>{medal_icon} {score[1]}</b></p>
+                <p>Score: {score[2]}</p>
+            </div>
+            """
 
-        # Closing the team scores table tag
+        # Closing the podium div
         html_content += """
-                    </tbody>
-                </table>
             </div>
             <br>
             <h3>Top 3 Results</h3>
             <br>
+            <table class="athlete-table">
+                <thead>
+                    <tr>
+                        <th>Place</th>
+                        <th>Grade</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Team</th>
+                        <th>Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
         """
 
-        # Create the HTML content for athletes
+        # Create the HTML content for athletes in a table format
         for result in individual_results:
             if len(result) >= 7:  # Ensure all required data is present
                 athlete_link = result[3]
@@ -161,21 +165,22 @@ for filename in os.listdir(dir_path):
                 else:
                     image_src = f"images/default.jpg"
                 
-                # Add athlete result to the HTML
+                # Add athlete result to the HTML table
                 html_content += f"""
-                <div class="athlete">
-                    <h4>{result[2]}</h4>
-                    <p><b>Place:</b> <br>{result[0]}</p>
-                    <p><b>Grade:</b> <br>{result[1]}</p>
-                    <p><b>Time:</b> <br>{result[4]}</p>
-                    <p><b>Team:</b> <br>{result[5]}</p>
-                    <img src="{image_src}" alt="Profile Picture of {result[2]}" class="profile-img">
-                </div>
-                <hr>
+                <tr>
+                    <td data-label="Place">{result[0]}</td>
+                    <td data-label="Grade">{result[1]}</td>
+                    <td data-label="Name"><a href="{athlete_link}" target="_blank">{result[2]}</a></td>
+                    <td data-label="Time">{result[4]}</td>
+                    <td data-label="Team">{result[5]}</td>
+                    <td data-label="Profile"><img src="{image_src}" alt="Profile Picture of {result[2]}"></td>
+                </tr>
                 """
 
-        # Ending the event section
+        # Closing the table and event section
         html_content += """
+                </tbody>
+            </table>
         </section>
         """
 
