@@ -109,7 +109,7 @@ html_content = """
 <body>
     <!-- Image Modal -->
     <div id="image-modal" class="modal">
-        <img class="modal-content" id="modal-img" alt="Fullscreen Image">
+        <img class="modal-content" id="modal-img" alt="Profile Pic Fullscreen View">
         <div id="modal-caption"></div>
     </div>
 
