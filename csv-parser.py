@@ -12,42 +12,97 @@ html_content = """
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Summareis</title>
+    <title>Event Summaries</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="css/reset.css"> 
     <link rel="stylesheet" href="css/style.css">
     <script>
+        // Handle scroll events and back-to-top button
         window.addEventListener('scroll', function() {
             const button = document.getElementById('back-to-top');
-            if (window.pageYOffset > 300) {
+            const modal = document.getElementById('image-modal');
+            // Show or hide the back-to-top button based on scroll position if modal is not open
+            if (window.pageYOffset > 300 && modal.style.display !== 'block') {
                 button.style.display = 'block';
             } else {
                 button.style.display = 'none';
             }
         });
 
+        // Scroll to top function
         function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                window.scrollTo({ top: 0 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
-        // Function to toggle modal visibility
+        // Toggle modal visibility
         function toggleModal(imageSrc, altText) {
             const modal = document.getElementById('image-modal');
             const modalImg = document.getElementById('modal-img');
             const modalCaption = document.getElementById('modal-caption');
+            const backToTopButton = document.getElementById('back-to-top');
 
             modal.style.display = 'block';
             modalImg.src = imageSrc;
             modalCaption.textContent = altText;
+
+            // Hide the back-to-top button when the modal is open
+            backToTopButton.style.display = 'none';
+
+            // Add event listener for keydown to close modal on "Escape"
+            document.addEventListener('keydown', handleModalKeydown);
+        }
+
+        // Close the modal
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.style.display = 'none';
+
+            // Re-enable the back-to-top button based on scroll position
+            const button = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                button.style.display = 'block';
+            }
+
+            // Remove keydown event listener when modal is closed
+            document.removeEventListener('keydown', handleModalKeydown);
+        }
+
+        // Handle keydown event to close modal when "Escape" is pressed
+        function handleModalKeydown(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
         }
 
         // Close the modal when clicking outside the image
         window.onclick = function(event) {
             const modal = document.getElementById('image-modal');
-            const modalImg = document.getElementById('modal-img');
-            if (event.target == modal) {
-                modal.style.display = 'none';
+            if (event.target === modal) {
+                closeModal();
             }
+        }
+
+        // Handle keydown event for profile images (open modal on Enter)
+        function handleImageKeydown(event, imageSrc, altText) {
+            if (event.key === 'Enter') {
+                toggleModal(imageSrc, altText);
+            }
+        }
+
+        // Toggle between dark and light mode
+        function toggleDarkMode() {
+            const root = document.documentElement;  // Refers to the <html> element
+            const currentTheme = root.getAttribute("data-theme");
+            
+            // Toggle between light and dark
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", newTheme);
+            console.log('Theme switched to:', newTheme); // Debugging line to verify it's working
         }
     </script>
 </head>
@@ -58,9 +113,11 @@ html_content = """
         <div id="modal-caption"></div>
     </div>
 
+    <!-- It's weird to have a footer at the top but it turns into a navbar on small viewports -->
     <footer>
         <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
-        <a href="index.html" class="footer-button">Home Page</a>
+        <a href="index.html" class="footer-button" tabindex="0">Home Page</a>
+        <button class="footer-button" onclick="toggleDarkMode()" tabindex="0">Change Mode</button>
     </footer>
     <main>
         <nav class="event-list">
@@ -203,7 +260,10 @@ for filename in os.listdir(dir_path):
                     <td data-label="Time">{result[4]}</td>
                     <td data-label="Team">{result[5]}</td>
                     <td data-label="Profile">
-                        <img src="{image_src}" alt="Profile Picture of {result[2]}" onclick="toggleModal('{image_src}', '{result[2]}')">
+                        <!-- Add tabindex and handleImageKeydown for keyboard accessibility -->
+                        <img src="{image_src}" alt="Profile Picture of {result[2]}" 
+                             onclick="toggleModal('{image_src}', '{result[2]}')" 
+                             onkeydown="handleImageKeydown(event, '{image_src}', '{result[2]}')" tabindex="0">
                     </td>
                 </tr>
                 """
@@ -218,7 +278,7 @@ for filename in os.listdir(dir_path):
 # Closing the main and other HTML tags
 html_content += """
     </main>
-    <button id="back-to-top" onclick="scrollToTop()">Back to Top</button>
+    <button id="back-to-top" onclick="scrollToTop()" tabindex="0">Back to Top</button>
 </body>
 </html>
 """
