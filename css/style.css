@@ -1,7 +1,7 @@
-/* All external resources used are referenced in writeup!!
+/* All external resources used are referenced in writeup!! 
 Most valuable lesson I learned was about CSS variables as I used them to control color scheme and colors between light and dark mode */
 
-/* Use inspect element color and WAVE picker to pick colors with good contrast */
+/* Used inspect element color and WAVE picker to pick colors with good contrast */
 :root {
     /* Light Mode Colors */
     --bg-color: #ffffff;
@@ -23,25 +23,33 @@ Most valuable lesson I learned was about CSS variables as I used them to control
     --table-row-even: #f9f9f9;
 }
 
-[data-theme="dark"] {
-    /* Dark Mode Colors */
-    --bg-color: #1e1e1e;
-    --text-color: #f0f0f0;
-    --link-color: #f6cc22;
-    --table-bg-color: #2c2c2c;
-    --event-bg-color: #333333;
-    --button-bg-color: #444444;
-    --button-text-color: #ffffff;
-    --footer-bg-color: #121212;
-    --modal-bg-color: #ffffffcc;
-    --border-color: #444444;
-    --medal-bg-gold: #ffd700;
-    --medal-bg-silver: #c0c0c0;
-    --medal-bg-bronze: #cd7f32;
-    --podium-text-color: #000000;
-    --modal-caption-color: #000000;
-    --table-row-odd: #3a3a3a;
-    --table-row-even: #585858;
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1e1e1e;
+        --text-color: #f0f0f0;
+        --link-color: #f6cc22;
+        --table-bg-color: #2c2c2c;
+        --event-bg-color: #333333;
+        --button-bg-color: #444444;
+        --button-text-color: #ffffff;
+        --footer-bg-color: #121212;
+        --modal-bg-color: #ffffffcc;
+        --border-color: #444444;
+        --medal-bg-gold: #ffd700;
+        --medal-bg-silver: #c0c0c0;
+        --medal-bg-bronze: #cd7f32;
+        --podium-text-color: #000000;
+        --modal-caption-color: #000000;
+        --table-row-odd: #3a3a3a;
+        --table-row-even: #585858;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .athlete-table a {
+        color: #f6cc22 !important;
+    }
 }
 
 /* General layout */
@@ -64,7 +72,6 @@ body {
     background-color: var(--bg-color);
     border-right: 1px solid var(--border-color);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    /* Added an overflow to event-list in case there's more events than space like we learned in class */
     overflow-y: auto;
     padding: 20px;
 }
@@ -95,8 +102,8 @@ body {
 /* Main content area */
 main {
     margin-left: 270px;
+    margin-right: 270px;
     padding: 20px;
-    /* Learned about and used calc() function to dynamically set the width based on available width */
     width: calc(100% - 540px);
     background-color: var(--bg-color);
 }
@@ -121,7 +128,6 @@ main {
     font-weight: bold;
 }
 
-/* As shown in class using pseudo-class to improve table visibility */
 .athlete-table tbody tr:nth-child(odd) {
     background-color: var(--table-row-odd);
 }
@@ -137,16 +143,6 @@ main {
     object-fit: cover;
 }
 
-/* Table link styling in dark mode */
-[data-theme="dark"] .athlete-table a {
-    color: var(--link-color);
-    text-decoration: none;
-}
-
-[data-theme="dark"] .athlete-table a:hover {
-    text-decoration: underline;
-}
-
 /* Podium styling */
 .podium {
     display: flex;
@@ -155,38 +151,47 @@ main {
     margin-top: 20px;
 }
 
+.podium > div {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* Set same font size and flex basis for all podium places */
+.podium .first-place,
+.podium .second-place,
+.podium .third-place {
+    flex: 1 0 30%;
+    font-size: 1.5rem;
+    color: var(--podium-text-color);
+}
+
 .podium .first-place {
     order: 2;
     background-color: var(--medal-bg-gold);
-    padding: 20px;
-    font-weight: bold;
-    text-align: center;
-    flex: 1 0 30%;
-    /* Used rem a few times for dynamic font scaling */
-    font-size: 1.5rem;
-    color: var(--podium-text-color);
 }
 
 .podium .second-place {
     order: 1;
     background-color: var(--medal-bg-silver);
-    padding: 15px;
-    font-weight: bold;
-    text-align: center;
-    flex: 1 0 25%;
-    font-size: 1.3rem;
-    color: var(--podium-text-color);
 }
 
 .podium .third-place {
     order: 3;
     background-color: var(--medal-bg-bronze);
-    padding: 10px;
-    font-weight: bold;
+}
+
+.podium p {
+    margin: 5px 0;
     text-align: center;
-    flex: 1 0 20%;
-    font-size: 1.1rem;
-    color: var(--podium-text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Event hover effect */
@@ -208,7 +213,7 @@ main {
 /* Footer styling */
 footer {
     position: fixed;
-    bottom: 0;
+    top: 0;
     right: 0;
     width: 250px;
     height: 100%;
@@ -236,7 +241,6 @@ footer {
     border-radius: 5px;
     display: inline-block;
     width: 100%;
-    max-width: 200px;
     margin-bottom: 10px;
     transition: background-color 0.3s;
     text-align: center;
@@ -277,6 +281,7 @@ footer {
     width: 100%;
     height: 100%;
     background-color: var(--modal-bg-color);
+    overflow: auto;
 }
 
 .modal-content {
@@ -285,7 +290,6 @@ footer {
     width: 600px;
     height: 900px;
     object-fit: cover;
-    border-radius: 10px;
 }
 
 /* Modal caption styling */
@@ -294,23 +298,6 @@ footer {
     color: var(--modal-caption-color);
     padding: 10px;
     font-size: 20px;
-}
-
-/* Event section styling */
-.event {
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: var(--event-bg-color);
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.event:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    /* Used z-index to make sure event is stacked higher when hovered */
-    z-index: 10;
 }
 
 /* Reduced motion - disables hover and shadow effects when it's turned on */
@@ -327,6 +314,7 @@ footer {
 }
 
 /* Responsive adjustments for smaller screens & mobile */
+/* Picked 1100 to not mess elements up on screens that are slightly smaller like laptops */
 @media (max-width: 1100px) {
     .event-list {
         position: static;
@@ -335,7 +323,6 @@ footer {
         padding: 10px;
         overflow-y: auto;
         box-shadow: none;
-        /* I changed display to block to reform into page and use less real estate*/
         display: block;
     }
 
@@ -355,6 +342,7 @@ footer {
 
     main {
         margin-left: 0;
+        margin-right: 0;
         padding: 0;
         width: 100%;
     }
@@ -396,7 +384,29 @@ footer {
     }
 
     .podium {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .podium > div {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .podium .first-place,
+    .podium .second-place,
+    .podium .third-place {
+        order: unset;
+        flex: unset;
+    }
+
+    /* Adjust text overflow handling for small screens */
+    .podium p {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
     }
 
     .athlete-table img {
@@ -404,7 +414,6 @@ footer {
         height: 80px;
     }
 
-    /* I turned the footer into an evenly-spaced navbar when the screen viewport gets small */
     footer {
         position: static;
         width: 100%;
@@ -414,21 +423,29 @@ footer {
         color: var(--button-text-color);
         box-shadow: none;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .footer-logo {
         width: 50px;
-        margin-right: 10px;
+        margin: 5px;
     }
 
     .footer-button {
-        margin-top: 0;
+        margin: 5px;
         padding: 5px 10px;
         font-size: 0.8rem;
-        max-width: none;
-        width: auto;
+        flex: 1 1 22%;
+        min-width: 100px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .modal-content { 
+        /* Felt like I had to use max-height here so images didnt spill over viewport on mobile */
+        max-width: 100%;
+        max-height: 70%;
     }
 }

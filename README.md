@@ -4,9 +4,9 @@ This project parses a folder full of CSV files to demonstrate the ability to use
 
 It builds on the previous work of deliverable-2 and styles the webpage using CSS/JavaScript. 
 
-**Accessibility** and **Compatibility** were the key considerations when building this deliverable.
+**Accessibility** and **Compatibility** for mobile devices were the key considerations when building this deliverable.
   
-The results are displayed on a HTML template and act as a foundation for futher deliverables. More details about this deliverable are available [here](https://docs.google.com/document/d/1W9S06dYWMqytT44sLFH89e6mjbOBqwD5yeTDOgRdZAE/edit?usp=sharing). 
+The results are displayed on HTML templates and act as a foundation for futher deliverables. More details about this deliverable are available [here](https://docs.google.com/document/d/1W9S06dYWMqytT44sLFH89e6mjbOBqwD5yeTDOgRdZAE/edit?usp=sharing). 
 
 ## Authors
 
