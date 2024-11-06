@@ -5,92 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Women's Event Summaries</title>
+    <title>&#9792; Women's Event Summaries</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="css/reset.css"> 
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        window.addEventListener('scroll', function() {
-            const button = document.getElementById('back-to-top');
-            const modal = document.getElementById('image-modal');
-            if (window.pageYOffset > 300 && modal.style.display !== 'block') {
-                button.style.display = 'block';
-            } else {
-                button.style.display = 'none';
-            }
-        });
-
-        function scrollToTop() {
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                window.scrollTo({ top: 0 });
-            } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        function toggleModal(imageSrc, altText, event) {
-            event.stopPropagation(); // Prevent the click event from bubbling up
-            const modal = document.getElementById('image-modal');
-            const modalImg = document.getElementById('modal-img');
-            const modalCaption = document.getElementById('modal-caption');
-            const backToTopButton = document.getElementById('back-to-top');
-
-            modal.style.display = 'block';
-            modalImg.src = imageSrc;
-            modalCaption.textContent = altText;
-            backToTopButton.style.display = 'none';
-            document.addEventListener('keydown', handleModalKeydown);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('image-modal');
-            modal.style.display = 'none';
-            const button = document.getElementById('back-to-top');
-            if (window.pageYOffset > 300) {
-                button.style.display = 'block';
-            }
-            document.removeEventListener('keydown', handleModalKeydown);
-        }
-
-        function handleModalKeydown(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        }
-
-        // Close the modal when clicking anywhere inside it
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('image-modal');
-            modal.addEventListener('click', closeModal);
-            const modalContent = document.getElementById('modal-img');
-            modalContent.addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent closing when clicking on the image
-            });
-        });
-
-        function handleImageKeydown(event, imageSrc, altText) {
-            if (event.key === 'Enter') {
-                toggleModal(imageSrc, altText, event);
-            }
-        }
-    </script>
 </head>
 <body>
+    <!-- Top Navbar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="results.html">All Events</a>
+        <a href="mens_results.html">Men's Events</a>
+        <a href="womens_results.html">Women's Events</a>
+    </div>
+
     <!-- Image Modal -->
-    <div id="image-modal" class="modal">
+    <div id="image-modal" class="modal" style="display: none;">
         <img class="modal-content" id="modal-img" alt="Profile Pic Fullscreen View">
         <div id="modal-caption"></div>
     </div>
-
-    <!-- Footer acting as Navbar -->
-    <footer>
-        <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
-        <a href="index.html" class="footer-button" tabindex="0">Home Page</a>
-        <a href="results.html" class="footer-button" tabindex="0">All Events</a>
-        <a href="mens_results.html" class="footer-button" tabindex="0">Men's Events</a>
-        <a href="womens_results.html" class="footer-button" tabindex="0">Women's Events</a>
-    </footer>
 
     <main>
         <nav class="event-list">
@@ -98,10 +31,7 @@
     <li><a href="#event-1" class="event-link">37th Early Bird Open Womens 5000 Meters HS Open 5K 24</a></li><li><a href="#event-2" class="event-link">56th Holly-Duane Raffin Festival of Races Womens 5000 Meters D1 Girls 24</a></li><li><a href="#event-3" class="event-link">56th Holly-Duane Raffin Festival of Races Womens 5000 Meters D1 JV Girls 24</a></li><li><a href="#event-4" class="event-link">Bret Clements Bath Invitational Womens 5000 Meters Class 1 24</a></li><li><a href="#event-5" class="event-link">Bret Clements Bath Invitational Womens 5000 Meters J.V. 24</a></li><li><a href="#event-6" class="event-link">SEC Jamboree 1 Womens 5000 Meters Junior Varsity 24</a></li><li><a href="#event-7" class="event-link">SEC Jamboree 1 Womens 5000 Meters Varsity 24</a></li>
             </ul>
         </nav>
-        <br>
-        <h1>Women's Event Summaries</h1>
-        <br>
-        <br>
+        <h1>&#9792; Women's Event Summaries</h1>
     
             <div class="spacer" id="spacer-1"></div>
             <section id="event-1" class="event">
@@ -149,7 +79,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Natalia Guaresimo" 
                                  onclick="toggleModal('images/default.jpg', 'Natalia Guaresimo', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Natalia Guaresimo')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -162,7 +92,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Kaylie Livingston" 
                                  onclick="toggleModal('images/default.jpg', 'Kaylie Livingston', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Kaylie Livingston')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -175,7 +105,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Violet Hrabovsky" 
                                  onclick="toggleModal('images/default.jpg', 'Violet Hrabovsky', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Violet Hrabovsky')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -229,7 +159,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Natalia Guaresimo" 
                                  onclick="toggleModal('images/default.jpg', 'Natalia Guaresimo', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Natalia Guaresimo')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -242,7 +172,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Emilia Garces" 
                                  onclick="toggleModal('images/default.jpg', 'Emilia Garces', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Emilia Garces')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -255,7 +185,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Lillian Deskins" 
                                  onclick="toggleModal('images/default.jpg', 'Lillian Deskins', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Lillian Deskins')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -309,7 +239,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Ella Thibodeau" 
                                  onclick="toggleModal('images/default.jpg', 'Ella Thibodeau', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Ella Thibodeau')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -322,7 +252,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Jillian Lower" 
                                  onclick="toggleModal('images/default.jpg', 'Jillian Lower', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Jillian Lower')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -335,7 +265,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Avery Hoeft" 
                                  onclick="toggleModal('images/default.jpg', 'Avery Hoeft', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Avery Hoeft')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -389,7 +319,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of McKinley Jones" 
                                  onclick="toggleModal('images/default.jpg', 'McKinley Jones', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'McKinley Jones')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -402,7 +332,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Rachel Smith" 
                                  onclick="toggleModal('images/default.jpg', 'Rachel Smith', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Rachel Smith')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -415,7 +345,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Savannah Staton" 
                                  onclick="toggleModal('images/default.jpg', 'Savannah Staton', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Savannah Staton')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -469,7 +399,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Mia Carson" 
                                  onclick="toggleModal('images/default.jpg', 'Mia Carson', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Mia Carson')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -482,7 +412,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Avay Yaldou" 
                                  onclick="toggleModal('images/default.jpg', 'Avay Yaldou', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Avay Yaldou')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -495,7 +425,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Annabelle Beloiu" 
                                  onclick="toggleModal('images/default.jpg', 'Annabelle Beloiu', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Annabelle Beloiu')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -549,7 +479,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Riley Provost" 
                                  onclick="toggleModal('images/default.jpg', 'Riley Provost', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Riley Provost')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -562,7 +492,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Claire Steinbrecher" 
                                  onclick="toggleModal('images/default.jpg', 'Claire Steinbrecher', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Claire Steinbrecher')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -575,7 +505,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Mahalia Staton" 
                                  onclick="toggleModal('images/default.jpg', 'Mahalia Staton', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Mahalia Staton')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -629,7 +559,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Natasza Dudek" 
                                  onclick="toggleModal('images/default.jpg', 'Natasza Dudek', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Natasza Dudek')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -642,7 +572,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of McKinley Jones" 
                                  onclick="toggleModal('images/default.jpg', 'McKinley Jones', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'McKinley Jones')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -655,7 +585,7 @@
                         <td data-label="Profile">
                             <img src="images/default.jpg" alt="Profile Picture of Hana Boggess" 
                                  onclick="toggleModal('images/default.jpg', 'Hana Boggess', event)" 
-                                 onkeydown="handleImageKeydown(event, 'images/default.jpg', 'Hana Boggess')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     
@@ -663,9 +593,10 @@
                 </table>
             </section>
             
+    <script src="js/script.js"></script>
     </main>
     
     <!-- Back to Top Button -->
-    <button id="back-to-top" onclick="scrollToTop()" tabindex="0">Back to Top</button>
+    <button id="back-to-top" tabindex="0" style="display:none;">Back to Top</button>
 </body>
 </html>

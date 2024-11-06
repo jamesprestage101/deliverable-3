@@ -4,7 +4,7 @@ import os
 dir_path = 'meets'
 image_dir = 'images/athletes'
 
-# HTML header without the navbar and with the footer moved to the top
+# Updated HTML header with a top navbar and modal logic fixes
 html_header = """
 <!DOCTYPE html>
 <html lang="en">
@@ -14,96 +14,29 @@ html_header = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="css/reset.css"> 
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        window.addEventListener('scroll', function() {{
-            const button = document.getElementById('back-to-top');
-            const modal = document.getElementById('image-modal');
-            if (window.pageYOffset > 300 && modal.style.display !== 'block') {{
-                button.style.display = 'block';
-            }} else {{
-                button.style.display = 'none';
-            }}
-        }});
-
-        function scrollToTop() {{
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {{
-                window.scrollTo({{ top: 0 }});
-            }} else {{
-                window.scrollTo({{ top: 0, behavior: 'smooth' }});
-            }}
-        }}
-
-        function toggleModal(imageSrc, altText, event) {{
-            event.stopPropagation(); // Prevent the click event from bubbling up
-            const modal = document.getElementById('image-modal');
-            const modalImg = document.getElementById('modal-img');
-            const modalCaption = document.getElementById('modal-caption');
-            const backToTopButton = document.getElementById('back-to-top');
-
-            modal.style.display = 'block';
-            modalImg.src = imageSrc;
-            modalCaption.textContent = altText;
-            backToTopButton.style.display = 'none';
-            document.addEventListener('keydown', handleModalKeydown);
-        }}
-
-        function closeModal() {{
-            const modal = document.getElementById('image-modal');
-            modal.style.display = 'none';
-            const button = document.getElementById('back-to-top');
-            if (window.pageYOffset > 300) {{
-                button.style.display = 'block';
-            }}
-            document.removeEventListener('keydown', handleModalKeydown);
-        }}
-
-        function handleModalKeydown(event) {{
-            if (event.key === 'Escape') {{
-                closeModal();
-            }}
-        }}
-
-        // Close the modal when clicking anywhere inside it
-        document.addEventListener('DOMContentLoaded', function() {{
-            const modal = document.getElementById('image-modal');
-            modal.addEventListener('click', closeModal);
-            const modalContent = document.getElementById('modal-img');
-            modalContent.addEventListener('click', function(event) {{
-                event.stopPropagation(); // Prevent closing when clicking on the image
-            }});
-        }});
-
-        function handleImageKeydown(event, imageSrc, altText) {{
-            if (event.key === 'Enter') {{
-                toggleModal(imageSrc, altText, event);
-            }}
-        }}
-    </script>
 </head>
 <body>
+    <!-- Top Navbar -->
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="results.html">All Events</a>
+        <a href="mens_results.html">Men's Events</a>
+        <a href="womens_results.html">Women's Events</a>
+    </div>
+
     <!-- Image Modal -->
-    <div id="image-modal" class="modal">
+    <div id="image-modal" class="modal" style="display: none;">
         <img class="modal-content" id="modal-img" alt="Profile Pic Fullscreen View">
         <div id="modal-caption"></div>
     </div>
-
-    <!-- Footer acting as Navbar -->
-    <footer>
-        <img src="images/athletic_logo.png" alt="Athletic.net Logo" class="footer-logo">
-        <a href="index.html" class="footer-button" tabindex="0">Home Page</a>
-        <a href="results.html" class="footer-button" tabindex="0">All Events</a>
-        <a href="mens_results.html" class="footer-button" tabindex="0">Men's Events</a>
-        <a href="womens_results.html" class="footer-button" tabindex="0">Women's Events</a>
-    </footer>
 """
 
-# HTML footer content without the footer (since it's moved to the top)
+# HTML footer content (Back to Top button)
 html_footer = """
     <!-- Back to Top Button -->
-    <button id="back-to-top" onclick="scrollToTop()" tabindex="0">Back to Top</button>
+    <button id="back-to-top" tabindex="0" style="display:none;">Back to Top</button>
 </body>
 </html>
 """
@@ -146,7 +79,6 @@ def create_event_sections(gender=None):
                 elif in_individual_results and len(individual_results) < 3:
                     individual_results.append(line.split(','))
 
-            # Generate event section with matching `id` for event list link
             sections += f"""
             <div class="spacer" id="spacer-{event_count}"></div>
             <section id="event-{event_count}" class="event">
@@ -196,7 +128,7 @@ def create_event_sections(gender=None):
                         <td data-label="Profile">
                             <img src="{image_src}" alt="Profile Picture of {result[2]}" 
                                  onclick="toggleModal('{image_src}', '{result[2]}', event)" 
-                                 onkeydown="handleImageKeydown(event, '{image_src}', '{result[2]}')" tabindex="0">
+                                 tabindex="0">
                         </td>
                     </tr>
                     """
@@ -207,10 +139,10 @@ def create_event_sections(gender=None):
             """
     return sections
 
-# Generate three different HTML files
+# Generate HTML pages
 pages = [("results.html", "All 2024 Event Summaries", None),
-         ("mens_results.html", "Men's Event Summaries", "Men"),
-         ("womens_results.html", "Women's Event Summaries", "Women")]
+         ("mens_results.html", "&#9794; Men's Event Summaries", "Men"),
+         ("womens_results.html", "&#9792; Women's Event Summaries", "Women")]
 
 for filename, title, gender_filter in pages:
     html_content = html_header.format(title=title)
@@ -230,18 +162,15 @@ for filename, title, gender_filter in pages:
             event_count += 1
             html_content += f'<li><a href="#event-{event_count}" class="event-link">{event_name}</a></li>'
 
-    # Add <br> after the title
     html_content += f"""
             </ul>
         </nav>
-        <br>
         <h1>{title}</h1>
-        <br>
-        <br>
     """
 
     html_content += create_event_sections(gender=gender_filter)
     html_content += """
+    <script src="js/script.js"></script>
     </main>
     """
     html_content += html_footer
